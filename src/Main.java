@@ -1,3 +1,5 @@
+import controllers.HistoryManager;
+import controllers.Managers;
 import controllers.TaskManager;
 import model.Epic;
 import model.Subtask;
@@ -7,42 +9,52 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("Программа запущена!");
-        TaskManager taskManager = new TaskManager();
+
+        TaskManager manager = Managers.getDefault();
         Task task1 = new Task("Task #1", "Task #1 description", "NEW");
-        taskManager.addNewTask(task1);
+        manager.addNewTask(task1);
         Task task2 = new Task("Task #2", "Task #2 description", "NEW");
-        taskManager.addNewTask(task2);
+        manager.addNewTask(task2);
         Epic epic1 = new Epic("Epic #1", "Epic #1 description");
-        taskManager.addNewEpic(epic1);
+        manager.addNewEpic(epic1);
         Subtask subtask1 = new Subtask("Subtask #1", "Subtask #1 description", "NEW", 3);
-        taskManager.addNewSubtask(subtask1);
+        manager.addNewSubtask(subtask1);
         Epic epic2 = new Epic("Epic #2", "Epic #2 description");
-        taskManager.addNewEpic(epic2);
+        manager.addNewEpic(epic2);
         Subtask subtask2 = new Subtask("Subtask #2", "Subtask #2 description", "NEW", 5);
-        taskManager.addNewSubtask(subtask2);
+        manager.addNewSubtask(subtask2);
         Subtask subtask3 = new Subtask("Subtask #3", "Subtask #3 description", "NEW", 5);
-        taskManager.addNewSubtask(subtask3);
-        printAllTasks(taskManager);
-        printAllEpics(taskManager);
-        printAllSubtasks(taskManager);
+        manager.addNewSubtask(subtask3);
+        printAllTasks(manager);
+        printAllEpics(manager);
+        printAllSubtasks(manager);
         System.out.println("---");
-        taskManager.modifyTask(1, new Task("Task #1", "Task #1 new description", "IN_PROGRESS"));
-        taskManager.modifyTask(2, new Task("Task #2", "Task #2 new description", "DONE"));
-        taskManager.modifySubtask(4, new Subtask("Subtask #1", "Subtask #1 new description",
+        manager.modifyTask(1, new Task("Task #1", "Task #1 new description", "IN_PROGRESS"));
+        manager.modifyTask(2, new Task("Task #2", "Task #2 new description", "DONE"));
+        manager.modifySubtask(4, new Subtask("Subtask #1", "Subtask #1 new description",
                 subtask1.getId(), "DONE", subtask1.getParentId()));
-        taskManager.modifySubtask(6, new Subtask("Subtask #2", "Subtask #2 new description",
+        manager.modifySubtask(6, new Subtask("Subtask #2", "Subtask #2 new description",
                 subtask2.getId(), "IN_PROGRESS", subtask2.getParentId()));
-        taskManager.modifySubtask(7, new Subtask("Subtask #3", "Subtask #3 new description",
+        manager.modifySubtask(7, new Subtask("Subtask #3", "Subtask #3 new description",
                 subtask3.getId(), "DONE", subtask3.getParentId()));
-        printAllTasks(taskManager);
-        printAllEpics(taskManager);
-        printAllSubtasks(taskManager);
+        printAllTasks(manager);
+        printAllEpics(manager);
+        printAllSubtasks(manager);
         System.out.println("---");
-        taskManager.deleteTaskById(2);
-        taskManager.deleteEpicById(3);
-        printAllTasks(taskManager);
-        printAllEpics(taskManager);
-        printAllSubtasks(taskManager);
+        manager.deleteTaskById(2);
+        manager.deleteEpicById(3);
+        printAllTasks(manager);
+        printAllEpics(manager);
+        printAllSubtasks(manager);
+        System.out.println("---");
+        manager.getTaskById(1);
+        manager.getEpicById(5);
+        manager.getSubtaskById(6);
+        manager.getSubtaskById(7);
+        for (Task task: manager.getHistory()) {
+            System.out.println(task.getId());
+        }
+
     }
 
     public static void printAllTasks(TaskManager tasks) {
