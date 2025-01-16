@@ -14,8 +14,7 @@ public class InMemoryTaskManager implements TaskManager {
     private final HashMap<Integer, Subtask> subtasks = new HashMap<>();
     private final HashMap<Integer, Epic> epics = new HashMap<>();
     private int idGenerator = 0;
-    InMemoryHistoryManager inMemoryHistoryManager = new InMemoryHistoryManager();
-
+    private final HistoryManager inMemoryHistoryManager = Managers.getDefaultHistory();
     @Override
     public ArrayList<Task> getHistory() {
         return inMemoryHistoryManager.getHistory();
