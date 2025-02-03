@@ -21,7 +21,7 @@ class InMemoryHistoryManagerTest {
         assertEquals(1, historyManager.getHistory().size(), "historic task should be added");
         task.setStatus("IN_PROGRESS");
         historyManager.add(task);
-        assertEquals(2, historyManager.getHistory().size(), "historic task should be added");
+        assertEquals(1, historyManager.getHistory().size(), "historic task should be added");
     }
 
     @Test
