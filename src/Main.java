@@ -50,7 +50,16 @@ public class Main {
         manager.getTaskById(1);
         manager.getEpicById(5);
         manager.getSubtaskById(6);
+        manager.getTaskById(1);
+        manager.getEpicById(5);
         manager.getSubtaskById(7);
+        manager.getSubtaskById(6);
+        for (Task task: manager.getHistory()) {
+            System.out.println(task.getId());
+        }
+        System.out.println("---");
+        manager.deleteSubtaskById(6);
+        manager.deleteTaskById(1);
         for (Task task: manager.getHistory()) {
             System.out.println(task.getId());
         }
