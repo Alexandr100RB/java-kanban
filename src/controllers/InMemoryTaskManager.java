@@ -41,11 +41,15 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void clearAllTasks() {
+        for (Integer id: tasks.keySet()) {
+            inMemoryHistoryManager.remove(id);
+        }
         tasks.clear();
     }
 
     @Override
     public void deleteTaskById(int id) {
+        inMemoryHistoryManager.remove(id);
         tasks.remove(id);
     }
 
@@ -109,7 +113,13 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void clearAllSubtasks() {
+        for (Integer epicId: epics.keySet()) {
+            inMemoryHistoryManager.remove(epicId);
+        }
         for (Epic epic : epics.values()) {
+            for (Integer subtaskId: epic.getSubtasksIds()) {
+                inMemoryHistoryManager.remove(subtaskId);
+            }
             epic.cleanSubtaskIds();
             checkEpicStatus(epic);
         }
@@ -121,12 +131,13 @@ public class InMemoryTaskManager implements TaskManager {
         Epic epic = epics.get(subtasks.get(id).getParentId());
         checkEpicStatus(epic);
         epic.deleteSubtaskById(id);
+        inMemoryHistoryManager.remove(id);
         subtasks.remove(id);
     }
 
     @Override
     public Task getSubtaskById(int id) {
-        Subtask subtask = subtasks.get(id);
+        Task subtask = subtasks.get(id);
         inMemoryHistoryManager.add(subtask);
         return subtask;
     }
@@ -146,14 +157,22 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void clearAllEpics() {
+        for (Integer epicId: epics.keySet()) {
+            inMemoryHistoryManager.remove(epicId);
+        }
+        for (Integer subtaskId: subtasks.keySet()) {
+            inMemoryHistoryManager.remove(subtaskId);
+        }
         epics.clear();
         subtasks.clear();
     }
 
     @Override
     public void deleteEpicById(int id) {
+        inMemoryHistoryManager.remove(id);
         final Epic epic = epics.remove(id);
         for (Integer subtaskId : epic.getSubtasksIds()) {
+            inMemoryHistoryManager.remove(subtaskId);
             subtasks.remove(subtaskId);
         }
     }
