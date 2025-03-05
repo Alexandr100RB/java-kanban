@@ -12,7 +12,7 @@ class EpicTest {
     void addNewEpic() {
         Epic epic = new Epic("Test epic", "Test description");
         InMemoryTaskManager taskManager = new InMemoryTaskManager();
-        final int epicId = taskManager.addNewTask(epic);
+        final int epicId = taskManager.addNewEpic(epic);
         final Task savedEpic = taskManager.getEpicById(epicId);
 
         assertNotNull(savedEpic, "epic not found");
