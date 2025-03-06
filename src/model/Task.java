@@ -7,18 +7,21 @@ public class Task {
     private String description;
     private int id;
     private String status;
+    private Types type;
 
     public Task(String title, String description, int id, String status) {
         this.title = title;
         this.description = description;
         this.id = id;
         this.status = status;
+        type = Types.TASK;
     }
 
     public Task(String title, String description, String status) {
         this.title = title;
         this.description = description;
         this.status = status;
+        type = Types.TASK;
     }
 
     public String getTitle() {
@@ -45,6 +48,10 @@ public class Task {
         this.id = id;
     }
 
+    public Types getType() {
+        return type;
+    }
+
     public String getStatus() {
         return status;
     }
@@ -52,6 +59,7 @@ public class Task {
     public void setStatus(String status) {
         this.status = status;
     }
+
 
     @Override
     public boolean equals(Object obj) {

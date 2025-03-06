@@ -1,14 +1,17 @@
-import controllers.HistoryManager;
 import controllers.Managers;
 import controllers.TaskManager;
 import model.Epic;
 import model.Subtask;
 import model.Task;
 
+import java.io.File;
+
 public class Main {
 
     public static void main(String[] args) {
         System.out.println("Программа запущена!");
+
+        File file = new File("task.csv");
 
         TaskManager manager = Managers.getDefault();
         Task task1 = new Task("Task #1", "Task #1 description", "NEW");
@@ -63,6 +66,7 @@ public class Main {
         for (Task task: manager.getHistory()) {
             System.out.println(task.getId());
         }
+        System.out.println("---");
 
     }
 
