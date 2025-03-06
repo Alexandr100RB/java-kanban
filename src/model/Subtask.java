@@ -26,7 +26,7 @@ public class Subtask extends Task {
         return "model.Subtask={id=" + getId() +
                 ", title=" + getTitle() +
                 ", description=" + getDescription() +
-                ", status=" + getStatus()+
+                ", status=" + getStatus() +
                 ", parentTaskId=" + epicId + "}";
     }
 }
