@@ -1,4 +1,3 @@
-import controllers.HistoryManager;
 import controllers.Managers;
 import controllers.TaskManager;
 import model.Epic;
@@ -67,6 +66,7 @@ public class Main {
         for (Task task: manager.getHistory()) {
             System.out.println(task.getId());
         }
+        System.out.println("---");
 
     }
 
