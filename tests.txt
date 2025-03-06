@@ -1,8 +1,0 @@
-./test/controllers/ManagersTest.java
-./test/controllers/InMemoryHistoryManagerTest.java
-./test/controllers/InMemoryTaskManagerTest.java
-./test/model/EpicTest.java
-./test/model/SubtaskTest.java
-./test/model/TaskTest.java
-
-
