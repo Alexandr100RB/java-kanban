@@ -159,7 +159,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     public void checkEpicStartTimeAndDuration(Epic epic) {
         super.checkEpicStartTimeAndDuration(epic);
         save();
-    };
+    }
 
     @Override
     public ArrayList<Subtask> getSubtasks(Epic epic) {
