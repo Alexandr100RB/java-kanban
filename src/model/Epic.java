@@ -40,12 +40,18 @@ public class Epic extends Task {
             return "model.Epic={id=" + getId() +
                     ", title=" + getTitle() +
                     ", description=" + getDescription() +
-                    ", status=" + getStatus() + "}";
+                    ", status=" + getStatus() +
+                    ", type=" + type +
+                    ", duration=" + getDuration().toMinutes() +
+                    ", startTime=" + getStartTime().toString() +"}";
         }
         return "model.Epic={id=" + getId() +
                 ", title=" + getTitle() +
                 ", description=" + getDescription() +
                 ", status=" + getStatus() +
+                ", type=" + type +
+                ", duration=" + getDuration().toMinutes() +
+                ", startTime=" + getStartTime().toString() +
                 ", subtasksIds=" + subtaskIds + "}";
     }
 }

@@ -14,8 +14,8 @@ public class CSVTaskFormat {
         final String[] values = value.split(",");
         final int id = Integer.parseInt(values[0]);
         final String title = values[1];
-        final String description = values[3];
-        final String status = values[2];
+        final String description = values[2];
+        final String status = values[3];
         return new Task(title, description, id, status);
     }
 

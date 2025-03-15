@@ -5,8 +5,13 @@ import model.Subtask;
 import model.Task;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 public interface TaskManager {
+
+    Set<Task> getPrioritizedTasks();
+
+    boolean isTasksCrossed(Task task);
 
     ArrayList<Task> getHistory();
 
@@ -29,6 +34,8 @@ public interface TaskManager {
     ArrayList<Subtask> getAllSubtasks();
 
     void checkEpicStatus(Epic epic);
+
+    void checkEpicStartTimeAndDuration(Epic epic);
 
     ArrayList<Subtask> getSubtasks(Epic epic);
 
