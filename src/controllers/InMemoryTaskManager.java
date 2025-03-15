@@ -142,7 +142,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
         epic.setStartTime(startTime);
         epic.setDuration(duration);
-    };
+    }
 
     @Override
     public ArrayList<Subtask> getSubtasks(Epic epic) {
