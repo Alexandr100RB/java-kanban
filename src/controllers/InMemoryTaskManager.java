@@ -215,7 +215,6 @@ public class InMemoryTaskManager implements TaskManager {
         subtasks.clear();
     }
 
-
     @Override
     public void deleteEpicById(int id) {
         inMemoryHistoryManager.remove(id);
