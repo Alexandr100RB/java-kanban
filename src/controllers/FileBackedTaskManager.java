@@ -156,6 +156,12 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
+    public void checkEpicStartTimeAndDuration(Epic epic) {
+        super.checkEpicStartTimeAndDuration(epic);
+        save();
+    }
+
+    @Override
     public ArrayList<Subtask> getSubtasks(Epic epic) {
         ArrayList<Subtask> result = super.getSubtasks(epic);
         return result;
