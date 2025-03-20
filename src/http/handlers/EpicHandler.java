@@ -72,14 +72,14 @@ public class EpicHandler extends BaseHttpHandler implements HttpHandler {
                 sendNotFound(exchange, "Не удалось получить эпик");
                 return;
             }
-            try {
-                int id = epic.getId();
+            int id = epic.getId();
+            if (epic.getId() == 0) {
+                taskManager.addNewEpic(epic);
+                sendSuccess(exchange);
+            } else {
                 if (taskManager.getEpicById(id) == null) {
                     sendNotFound(exchange, "Не найден эпик " + id);
                 }
-            } catch (Exception exception) {
-                taskManager.addNewEpic(epic);
-                sendSuccess(exchange);
             }
         } catch (Exception exception) {
             sendNotFound(exchange, "Не удалось добавить эпик");

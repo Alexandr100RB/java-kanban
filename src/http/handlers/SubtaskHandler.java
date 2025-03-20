@@ -69,17 +69,17 @@ public class SubtaskHandler extends BaseHttpHandler implements HttpHandler {
                 sendNotFound(exchange, "Не удалось получить подзадачу");
                 return;
             }
-            try {
-                int id = subtask.getId();
+            int id = subtask.getId();
+            if (subtask.getId() == 0) {
+                taskManager.addNewSubtask(subtask);
+                sendSuccess(exchange);
+            } else {
                 if (taskManager.getSubtaskById(id) == null) {
                     sendNotFound(exchange, "Не найдена подзадача " + id);
                 } else {
                     taskManager.modifySubtask(id, subtask);
                     sendSuccess(exchange);
                 }
-            } catch (Exception exception) {
-                taskManager.addNewSubtask(subtask);
-                sendSuccess(exchange);
             }
         } catch (Exception exception) {
             sendNotFound(exchange, "Не удалось добавить подзадачу");

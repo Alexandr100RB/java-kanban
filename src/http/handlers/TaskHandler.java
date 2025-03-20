@@ -3,8 +3,8 @@ package http.handlers;
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import http.HttpTaskServer;
 import controllers.TaskManager;
+import http.HttpTaskServer;
 import model.Task;
 
 import java.io.IOException;
@@ -72,17 +72,17 @@ public class TaskHandler extends BaseHttpHandler implements HttpHandler {
                 sendHasInteractions(exchange, "Задача пересекается с существующей");
                 return;
             }
-            try {
-                int id = task.getId();
+            int id = task.getId();
+            if (id == 0) {
+                taskManager.addNewTask(task);
+                sendSuccess(exchange);
+            } else {
                 if (taskManager.getTaskById(id) == null) {
                     sendNotFound(exchange, "Не найдена задача " + id);
                 } else {
                     taskManager.modifyTask(id, task);
                     sendSuccess(exchange);
                 }
-            } catch (Exception exception) {
-                taskManager.addNewTask(task);
-                sendSuccess(exchange);
             }
         } catch (Exception exception) {
             sendNotFound(exchange, "Не удалось добавить задачу");
