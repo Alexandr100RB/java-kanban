@@ -1,10 +1,8 @@
 package http.handlers;
 
-import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import controllers.TaskManager;
-import http.HttpTaskServer;
 import model.Epic;
 import model.Task;
 
@@ -15,11 +13,9 @@ import java.util.List;
 
 public class EpicHandler extends BaseHttpHandler implements HttpHandler {
     private final TaskManager taskManager;
-    private final Gson gson;
 
     public EpicHandler(TaskManager taskManager) {
         this.taskManager = taskManager;
-        gson = HttpTaskServer.getGson();
     }
 
     @Override
@@ -28,22 +24,22 @@ public class EpicHandler extends BaseHttpHandler implements HttpHandler {
         String requestedPath = exchange.getRequestURI().getPath();
         String[] splitPath = requestedPath.split("/");
         if (requestedMethod.equals("GET") && splitPath.length == 2 && splitPath[1].equals("epics")) {
-            getEpicsHandle(exchange, gson);
+            getEpicsHandle(exchange);
         } else if (requestedMethod.equals("GET") && splitPath.length == 3 && splitPath[1].equals("epics")) {
-            getEpicByIdHandle(exchange, gson, splitPath[2]);
+            getEpicByIdHandle(exchange, splitPath[2]);
         } else if (requestedMethod.equals("GET") && splitPath.length == 4 && splitPath[1].equals("epics")
                 && splitPath[3].equals("subtasks")) {
-            getSubtasksHandle(exchange, gson, splitPath[3]);
+            getSubtasksHandle(exchange, splitPath[3]);
         } else if (requestedMethod.equals("POST") && splitPath.length == 2 && splitPath[1].equals("epics")) {
-            postEpicHandle(exchange, gson);
+            postEpicHandle(exchange);
         } else if (requestedMethod.equals("DELETE") && splitPath.length == 3 && splitPath[1].equals("epics")) {
             deleteEpicByIdHandle(exchange, splitPath[2]);
         } else {
-            sendNotFound(exchange, "Такого метода не существует");
+            sendNotAllowed(exchange, "Такого метода не существует");
         }
     }
 
-    private void getEpicsHandle(HttpExchange exchange, Gson gson) throws IOException {
+    private void getEpicsHandle(HttpExchange exchange) throws IOException {
         try {
             List<Task> tasks = taskManager.getAllEpics();
             String text = gson.toJson(tasks);
@@ -53,7 +49,7 @@ public class EpicHandler extends BaseHttpHandler implements HttpHandler {
         }
     }
 
-    private void getEpicByIdHandle(HttpExchange exchange, Gson gson, String stringId) throws IOException {
+    private void getEpicByIdHandle(HttpExchange exchange, String stringId) throws IOException {
         try {
             int id = Integer.parseInt(stringId);
             Task task = taskManager.getEpicById(id);
@@ -63,7 +59,7 @@ public class EpicHandler extends BaseHttpHandler implements HttpHandler {
         }
     }
 
-    private void postEpicHandle(HttpExchange exchange, Gson gson) throws IOException {
+    private void postEpicHandle(HttpExchange exchange) throws IOException {
         try {
             InputStream bodyInputStream = exchange.getRequestBody();
             String body = new String(bodyInputStream.readAllBytes(), StandardCharsets.UTF_8);
@@ -82,7 +78,7 @@ public class EpicHandler extends BaseHttpHandler implements HttpHandler {
                 }
             }
         } catch (Exception exception) {
-            sendNotFound(exchange, "Не удалось добавить эпик");
+            sendBadRequest(exchange, "Не удалось добавить эпик");
         }
     }
 
@@ -96,7 +92,7 @@ public class EpicHandler extends BaseHttpHandler implements HttpHandler {
         }
     }
 
-    private void getSubtasksHandle(HttpExchange exchange, Gson gson, String stringId) throws IOException {
+    private void getSubtasksHandle(HttpExchange exchange, String stringId) throws IOException {
         try {
             int id = Integer.parseInt(stringId);
             List<Integer> subtasksIds = ((Epic) taskManager.getEpicById(id)).getSubtasksIds();

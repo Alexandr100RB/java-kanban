@@ -1,10 +1,8 @@
 package http.handlers;
 
-import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import controllers.TaskManager;
-import http.HttpTaskServer;
 import model.Task;
 
 import java.io.IOException;
@@ -14,11 +12,9 @@ import java.util.List;
 
 public class TaskHandler extends BaseHttpHandler implements HttpHandler {
     private final TaskManager taskManager;
-    private final Gson gson;
 
     public TaskHandler(TaskManager taskManager) {
         this.taskManager = taskManager;
-        gson = HttpTaskServer.getGson();
     }
 
     @Override
@@ -27,19 +23,19 @@ public class TaskHandler extends BaseHttpHandler implements HttpHandler {
         String requestedPath = exchange.getRequestURI().getPath();
         String[] splitPath = requestedPath.split("/");
         if (requestedMethod.equals("GET") && splitPath.length == 2 && splitPath[1].equals("tasks")) {
-            getTasksHandle(exchange, gson);
+            getTasksHandle(exchange);
         } else if (requestedMethod.equals("GET") && splitPath.length == 3 && splitPath[1].equals("tasks")) {
-            getTaskByIdHandle(exchange, gson, splitPath[2]);
+            getTaskByIdHandle(exchange, splitPath[2]);
         } else if (requestedMethod.equals("POST") && splitPath.length == 2 && splitPath[1].equals("tasks")) {
-            postTaskHandle(exchange, gson);
+            postTaskHandle(exchange);
         } else if (requestedMethod.equals("DELETE") && splitPath.length == 3 && splitPath[1].equals("tasks")) {
             deleteTaskByIdHandle(exchange, splitPath[2]);
         } else {
-            sendNotFound(exchange, "Такого метода не существует");
+            sendNotAllowed(exchange, "Такого метода не существует");
         }
     }
 
-    private void getTasksHandle(HttpExchange exchange, Gson gson) throws IOException {
+    private void getTasksHandle(HttpExchange exchange) throws IOException {
         try {
             List<Task> tasks = taskManager.getAllTasks();
             String text = gson.toJson(tasks);
@@ -49,7 +45,7 @@ public class TaskHandler extends BaseHttpHandler implements HttpHandler {
         }
     }
 
-    private void getTaskByIdHandle(HttpExchange exchange, Gson gson, String stringId) throws IOException {
+    private void getTaskByIdHandle(HttpExchange exchange, String stringId) throws IOException {
         try {
             int id = Integer.parseInt(stringId);
             Task task = taskManager.getTaskById(id);
@@ -59,7 +55,7 @@ public class TaskHandler extends BaseHttpHandler implements HttpHandler {
         }
     }
 
-    private void postTaskHandle(HttpExchange exchange, Gson gson) throws IOException {
+    private void postTaskHandle(HttpExchange exchange) throws IOException {
         try {
             InputStream bodyInputStream = exchange.getRequestBody();
             String body = new String(bodyInputStream.readAllBytes(), StandardCharsets.UTF_8);
@@ -85,7 +81,7 @@ public class TaskHandler extends BaseHttpHandler implements HttpHandler {
                 }
             }
         } catch (Exception exception) {
-            sendNotFound(exchange, "Не удалось добавить задачу");
+            sendBadRequest(exchange, "Не удалось добавить задачу");
         }
     }
 

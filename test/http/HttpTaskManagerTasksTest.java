@@ -3,6 +3,7 @@ package http;
 import com.google.gson.Gson;
 import controllers.InMemoryTaskManager;
 import controllers.TaskManager;
+import http.handlers.BaseHttpHandler;
 import model.Task;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,7 +25,7 @@ public class HttpTaskManagerTasksTest {
 
     TaskManager manager = new InMemoryTaskManager();
     HttpTaskServer taskServer = new HttpTaskServer(manager);
-    Gson gson = HttpTaskServer.getGson();
+    Gson gson = BaseHttpHandler.getGson();
 
     public HttpTaskManagerTasksTest() throws IOException {
     }
