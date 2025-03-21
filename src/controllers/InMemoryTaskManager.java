@@ -1,5 +1,6 @@
 package controllers;
 
+import exceptions.NotFoundException;
 import model.Epic;
 import model.Statuses;
 import model.Subtask;
@@ -80,9 +81,13 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Task getTaskById(int id) {
-        Task task = tasks.get(id);
-        inMemoryHistoryManager.add(task);
-        return task;
+        try {
+            Task task = tasks.get(id);
+            inMemoryHistoryManager.add(task);
+            return task;
+        } catch (Exception exception) {
+            throw new NotFoundException("Эпик " + id + " не найден.");
+        }
     }
 
     @Override
@@ -194,9 +199,13 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Task getSubtaskById(int id) {
-        Task subtask = subtasks.get(id);
-        inMemoryHistoryManager.add(subtask);
-        return subtask;
+        try {
+            Task subtask = subtasks.get(id);
+            inMemoryHistoryManager.add(subtask);
+            return subtask;
+        } catch (Exception exception) {
+            throw new NotFoundException("Эпик " + id + " не найден.");
+        }
     }
 
     @Override
@@ -236,8 +245,12 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Task getEpicById(int id) {
-        Epic epic = epics.get(id);
-        inMemoryHistoryManager.add(epic);
-        return epic;
+        try {
+            Epic epic = epics.get(id);
+            inMemoryHistoryManager.add(epic);
+            return epic;
+        } catch (Exception exception) {
+            throw new NotFoundException("Эпик " + id + " не найден.");
+        }
     }
 }
